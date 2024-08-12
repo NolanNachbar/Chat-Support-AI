@@ -2,7 +2,7 @@
 
 import { Box, Button, Stack, TextField } from '@mui/material';
 import { useState, useRef, useEffect } from 'react';
-import SplineScene from './SplineScene'; // Import your Spline component
+import SplineScene from './Splinescene'; // Import your Spline component
 
 export default function Home() {
   const [messages, setMessages] = useState([
@@ -89,13 +89,14 @@ export default function Home() {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      sx={{ backgroundColor: 'black', color: 'white' }} // Set background to black and text color to white
+      sx={{ backgroundColor: 'black', color: 'white', position: 'relative' }} // Set position to relative for stacking context
     >
       <Stack
         direction={'row'} // Align chat and Spline scene horizontally
         spacing={4} // Space between chat and Spline scene
         width="100%"
         height="100%"
+        sx={{ position: 'relative', zIndex: 1 }} // Ensure chat has a higher z-index
       >
         <Stack
           direction={'column'}
@@ -157,8 +158,8 @@ export default function Home() {
             </Button>
           </Stack>
         </Stack>
-        <SplineScene /> {/* Add the Spline scene here */}
       </Stack>
+      <SplineScene /> {/* Add the Spline scene here */}
     </Box>
   );
 }
