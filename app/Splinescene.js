@@ -1,5 +1,3 @@
-// components/SplineScene.js
-
 import React from 'react';
 
 const Splinescene = () => {
