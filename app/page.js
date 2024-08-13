@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
 import { Box, Button, Stack, TextField } from '@mui/material';
 import { useState, useRef, useEffect } from 'react';
-import SplineScene from './Splinescene';
+import SplineScene from './Splinescene'; // Import your Spline component
 
 export default function Home() {
   const [messages, setMessages] = useState([
@@ -74,7 +74,7 @@ export default function Home() {
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -89,74 +89,87 @@ export default function Home() {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      sx={{ backgroundColor: 'black', color: 'white', position: 'relative', overflow: 'hidden' }}
+      sx={{ backgroundColor: 'black', color: 'white', position: 'relative' }} // Set position to relative for stacking context
     >
-      <SplineScene /> {/* Add the Spline scene first to make sure it's behind the chat */}
       <Stack
-        direction={'column'}
-        width="500px"
-        height="700px"
-        border="1px solid black"
-        p={2}
-        spacing={3}
-        sx={{ 
-          backgroundColor: 'rgba(0, 0, 0, 0.7)', 
-          borderColor: 'white', 
-          zIndex: 1, // Ensure the chat has a higher z-index
-          position: 'relative',
-        }}
+        direction={'row'} // Align chat and Spline scene horizontally
+        spacing={4} // Space between chat and Spline scene
+        width="100%"
+        height="100%"
+        justifyContent="flex-start" // Align chat to the left
+        sx={{ position: 'relative', zIndex: 1 }} // Ensure chat has a higher z-index
       >
         <Stack
           direction={'column'}
-          spacing={2}
-          flexGrow={1}
-          overflow="auto"
-          maxHeight="100%"
+          width="500px"
+          height="700px"
+          border="1px solid black"
+          p={2}
+          spacing={3}
+          sx={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', borderColor: 'grey' }} // Set chat background to semi-transparent black
         >
-          {messages.map((message, index) => (
-            <Box
-              key={index}
-              display="flex"
-              justifyContent={
-                message.role === 'assistant' ? 'flex-start' : 'flex-end'
-              }
-            >
-              <Box
-                bgcolor={
-                  message.role === 'assistant'
-                    ? 'primary.main'
-                    : 'secondary.main'
-                }
-                color="white"
-                borderRadius={16}
-                p={3}
-              >
-                {message.content}
-              </Box>
-            </Box>
-          ))}
-          <div ref={messagesEndRef} />
-        </Stack>
-        <Stack direction={'row'} spacing={2}>
-          <TextField
-            label="Message"
-            fullWidth
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            disabled={isLoading}
-            variant="outlined"
-            sx={{ '& .MuiOutlinedInput-root': { borderColor: 'white', color: 'white' }, input: { color: 'white' } }}
-          />
-          <Button 
-            variant="contained" 
-            onClick={sendMessage}
-            disabled={isLoading}
-            sx={{ color: 'black', backgroundColor: 'white' }}
+          <Stack
+            direction={'column'}
+            spacing={2}
+            flexGrow={1}
+            overflow="auto"
+            maxHeight="100%"
           >
-            {isLoading ? 'Sending...' : 'Send'}
-          </Button>
+            {messages.map((message, index) => (
+              <Box
+                key={index}
+                display="flex"
+                justifyContent={
+                  message.role === 'assistant' ? 'flex-start' : 'flex-end'
+                }
+              >
+                <Box
+                  bgcolor={
+                    message.role === 'assistant'
+                      ? 'primary.main'
+                      : 'secondary.main'
+                  }
+                  color="white" // Ensure message text is white
+                  borderRadius={16}
+                  p={3}
+                >
+                  {message.content}
+                </Box>
+              </Box>
+            ))}
+            <div ref={messagesEndRef} />
+          </Stack>
+          <Stack direction={'row'} spacing={2}>
+          <TextField
+  label="Message"
+  fullWidth
+  value={message}
+  onChange={(e) => setMessage(e.target.value)}
+  onKeyPress={handleKeyPress}
+  disabled={isLoading}
+  sx={{
+    '& .MuiInputBase-input': { color: 'white' }, // Set text color
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': { borderColor: 'white' }, // Set border color
+      '&:hover fieldset': { borderColor: 'white' }, // Set border color on hover
+    },
+    '& .MuiInputLabel-root': { color: 'white' }, // Set label color
+    '& .MuiInputLabel-shrink': { color: 'white' } // Set label color when shrunk
+  }}
+/>
+
+            <Button 
+              variant="contained" 
+              onClick={sendMessage}
+              disabled={isLoading}
+              sx={{ color: 'black', backgroundColor: 'white' }} // Set button colors
+            >
+              {isLoading ? 'Sending...' : 'Send'}
+            </Button>
+          </Stack>
         </Stack>
+        <Box flexGrow={1} /> {/* Add this Box to push the Spline scene to the right */}
+        <SplineScene /> {/* Add the Spline scene here */}
       </Stack>
     </Box>
   );
